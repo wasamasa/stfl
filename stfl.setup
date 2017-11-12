@@ -1,0 +1,7 @@
+(compile -s -O3 -d1 "stfl.scm" -J -lstfl)
+(compile -s "stfl.import.scm")
+
+(install-extension
+ 'stfl
+ '("stfl.so" "stfl.import.so")
+ '((version "0.1")))
