@@ -2,4 +2,6 @@
  (author "Vasilij Schneidermann")
  (license "GPL-3")
  (category ui)
- (foreign-depends "stfl"))
+ (foreign-depends "stfl")
+ (files "stfl.scm" "stfl.meta" "stfl.setup" "stfl.release-info"
+        "LICENSE" "README.rst"))
