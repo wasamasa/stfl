@@ -4,4 +4,4 @@
 (install-extension
  'stfl
  '("stfl.so" "stfl.import.so")
- '((version "0.1")))
+ '((version "0.2")))
