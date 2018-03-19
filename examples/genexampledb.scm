@@ -41,7 +41,8 @@
 
 (define (main)
   (when (null? (command-line-arguments))
-    (fprintf (current-error-port) "usage: ~a <credits>\n" (car (argv)))
+    ;; https://github.com/torvalds/linux/blob/master/CREDITS
+    (fprintf (current-error-port) "usage: ~a <linux CREDITS>\n" (car (argv)))
     (exit 1))
   (call-with-database "example.db"
     (lambda (db)
