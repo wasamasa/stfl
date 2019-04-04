@@ -1,7 +1,18 @@
-(use extras posix srfi-1 irregex scsh-process (prefix stfl stfl:))
+(import scheme)
+(cond-expand
+ (chicken-4
+  (use extras posix srfi-1 irregex scsh-process (prefix stfl stfl:)))
+ (chicken-5
+  (import (chicken file))
+  (import (chicken format))
+  (import (chicken irregex))
+  (import (chicken process-context))
+  (import (srfi 1))
+  (import scsh-process)
+  (import (prefix stfl stfl:))))
 
 (when (null? (command-line-arguments))
-  (fprintf (current-error-port) "usage: ~a <mpd-directory>\n" (car (argv)))
+  (fprintf (current-error-port) "usage: ~a <mpd-directory>\n" (program-name))
   (exit 1))
 
 (define mpd-directory (car (command-line-arguments)))

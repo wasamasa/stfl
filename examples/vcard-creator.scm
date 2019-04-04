@@ -1,4 +1,10 @@
-(use extras (prefix stfl stfl:))
+(import scheme)
+(cond-expand
+ (chicken-4
+  (use extras (prefix stfl stfl:)))
+ (chicken-5
+  (import (chicken format))
+  (import (prefix stfl stfl:))))
 
 (define layout #<<EOT
 vbox

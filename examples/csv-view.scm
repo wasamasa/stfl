@@ -1,15 +1,40 @@
-(use extras data-structures srfi-1 csv-xml (prefix stfl stfl:))
+(import scheme)
+(cond-expand
+ (chicken-4
+  (use extras data-structures srfi-1 csv
+       (rename csv-char-list (csv-parser make-parser))
+       (prefix stfl stfl:)))
+ (chicken-5
+  (import (chicken format))
+  (import (chicken io))
+  (import (chicken process-context))
+  (import (chicken string))
+  (import (srfi 1))
+  (import csv-abnf)
+  (import (prefix stfl stfl:))))
 
-(define (read-csv filename delimiter)
+(when (null? (command-line-arguments))
+  (fprintf (current-error-port) "usage: ~a <infile> [delimiter]\n" (car (argv)))
+  (exit 1))
+
+(define infile (car (command-line-arguments)))
+(define delimiter (if (pair? (cdr (command-line-arguments)))
+                      (string-ref (cadr (command-line-arguments)) 0)
+                      #\,))
+
+(define parse-csv (make-parser delimiter))
+(define-values (format-csv-cell format-csv-record format-csv)
+  (make-format (make-string 1 delimiter)))
+
+(define (read-csv filename)
   (call-with-input-file filename
     (lambda (in)
-      (csv->list (make-csv-reader in `((separator-chars ,delimiter)))))))
+      (map csv-record->list (parse-csv (string->list (read-string #f in)))))))
 
-(define (write-csv! filename rows delimiter)
+(define (write-csv! filename rows)
   (call-with-output-file filename
     (lambda (out)
-      (let ((writer (writer-spec separator-char: delimiter)))
-        (list->csv rows (make-csv-writer out writer))))))
+      (display (format-csv (map list->csv-record rows)) out))))
 
 (define (list->table rows)
   (let ((max-width (apply max (map length rows)))
@@ -44,6 +69,8 @@
               (cons (line->list (vector-ref table i)) acc))
         (reverse acc))))
 
+(define data (list->table (read-csv infile)))
+
 (define (table-map table proc)
   (let ((height (vector-length table))
         (width (vector-length (vector-ref table 0))))
@@ -56,15 +83,6 @@
           (let ((item (vector-ref (vector-ref table i) j)))
             (proc i j item))))))))
 
-(when (null? (command-line-arguments))
-  (fprintf (current-error-port) "usage: ~a <infile> [delimiter]\n" (car (argv)))
-  (exit 1))
-
-(define infile (car (command-line-arguments)))
-(define delimiter (if (pair? (cdr (command-line-arguments)))
-                      (string-ref (cadr (command-line-arguments)) 0)
-                      #\,))
-(define data (list->table (read-csv infile delimiter)))
 (define table-layout
   (format "{table .expand:1 ~a}"
           (string-intersperse
@@ -111,7 +129,7 @@
         (vector-set! (vector-ref data i) j value))))))
 
 (define (save-table!)
-  (write-csv! infile (table->list data) delimiter))
+  (write-csv! infile (table->list data)))
 
 (set-status! (format "editing ~a" infile))
 (set-help! "^W = write, ^C = exit")

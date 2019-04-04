@@ -1,4 +1,14 @@
-(use srfi-1 data-structures extras sql-de-lite irregex (prefix stfl stfl:))
+(import scheme)
+(cond-expand
+ (chicken-4
+  (use srfi-1 data-structures extras sql-de-lite irregex (prefix stfl stfl:)))
+ (chicken-5
+  (import (chicken format))
+  (import (chicken irregex))
+  (import (chicken string))
+  (import (srfi 1))
+  (import sql-de-lite)
+  (import (prefix stfl stfl:))))
 
 (define db (open-database "example.db"))
 

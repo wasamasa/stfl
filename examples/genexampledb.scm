@@ -1,4 +1,14 @@
-(use extras srfi-69 irregex sql-de-lite)
+(import scheme)
+(cond-expand
+ (chicken-4
+  (use extras srfi-69 irregex sql-de-lite))
+ (chicken-5
+  (import (chicken format))
+  (import (chicken io))
+  (import (chicken irregex))
+  (import (chicken process-context))
+  (import (srfi 69))
+  (import sql-de-lite)))
 
 (define (create-db! db)
   (exec (sql db "CREATE TABLE people (name, email, web, description, addr)")))
