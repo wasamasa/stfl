@@ -7,6 +7,11 @@ About
 A binding to the `STFL <http://www.clifford.at/stfl/>`_ library.
 Covers the entire API, including the nonsensical bits.
 
+Examples
+--------
+
+Run `chicken-install -n` to install their dependencies and build them.
+
 Docs
 ----
 

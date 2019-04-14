@@ -5,6 +5,7 @@
        (rename csv-char-list (csv-parser make-parser))
        (prefix stfl stfl:)))
  (chicken-5
+  (import (chicken base))
   (import (chicken format))
   (import (chicken io))
   (import (chicken process-context))

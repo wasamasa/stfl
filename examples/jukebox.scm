@@ -3,6 +3,7 @@
  (chicken-4
   (use extras posix srfi-1 irregex scsh-process (prefix stfl stfl:)))
  (chicken-5
+  (import (chicken base))
   (import (chicken file))
   (import (chicken format))
   (import (chicken irregex))

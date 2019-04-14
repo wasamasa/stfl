@@ -3,6 +3,7 @@
  (chicken-4
   (use extras (prefix stfl stfl:)))
  (chicken-5
+  (import (chicken base))
   (import (chicken format))
   (import (prefix stfl stfl:))))
 

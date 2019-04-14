@@ -3,6 +3,7 @@
  (chicken-4
   (use extras srfi-69 irregex sql-de-lite))
  (chicken-5
+  (import (chicken base))
   (import (chicken format))
   (import (chicken io))
   (import (chicken irregex))

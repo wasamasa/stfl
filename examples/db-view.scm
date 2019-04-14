@@ -3,6 +3,7 @@
  (chicken-4
   (use srfi-1 data-structures extras sql-de-lite irregex (prefix stfl stfl:)))
  (chicken-5
+  (import (chicken base))
   (import (chicken format))
   (import (chicken irregex))
   (import (chicken string))
