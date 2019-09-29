@@ -1,3 +1,7 @@
+*.svnwiki
 *.so
-*.import
+*.o
 *.import.scm
+*.install.sh
+*.build.sh
+*.link
